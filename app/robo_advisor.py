@@ -1,3 +1,23 @@
+
+import requests
+import json 
+
+#info inputs
+
+request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+
+
+response = requests.get(request_url)
+#print(type(response)) #response
+#print(response.status_code) #200
+#print(response.text) 
+
+parsed_response = jason.loads(response.text)
+
+breakpoint()
+
+#info outputs 
+
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
