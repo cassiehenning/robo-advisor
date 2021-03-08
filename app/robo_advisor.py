@@ -4,7 +4,6 @@ import json
 import csv
 import os
 
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -13,12 +12,28 @@ load_dotenv()
 def to_usd(my_price): 
     return "${0:,.2f}".format(my_price)
     
-
 #info inputs
 
 global symbol
 symbol = ""
+
 symbol = input("Please input stock symbol here (EX: MSFT): ")
+check_symbol = symbol.isalpha()
+
+if len(symbol) < 1:
+     print("Please enter a valid stock symbol.")  
+     exit()
+elif len(symbol) > 6:
+     print("Please enter a valid stock symbol.")
+     exit()
+elif check_symbol == False:
+     print("Please enter a valid stock symbol.")
+     exit()
+#elif IndexError:
+    #print("Symbol not found. Please try again.")
+    #exit()
+
+
 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY", "demo")
 
@@ -41,18 +56,19 @@ dates = list(tsd.keys())
 latest_day = dates[0] #first item in dates' list
 
 latest_close = tsd[latest_day]["4. close"]
-
 #maximum of all high prices 
+
 high_prices = []
+
 low_prices = []
 
 for date in dates:
-    high_price = tsd[date]["2. high"]
-    low_price = tsd[date]["3. low"]
-    high_prices.append(float(high_price))
-    low_prices.append(float(low_price))
-recent_high = max(high_prices)
-recent_low = min(low_prices)
+     high_price = tsd[date]["2. high"]
+     low_price = tsd[date]["3. low"]
+     high_prices.append(float(high_price))
+     low_prices.append(float(low_price))
+     recent_high = max(high_prices)
+     recent_low = min(low_prices)
 
 #csv_file_path = "data/prices.csv" # a relative filepath
 
@@ -61,20 +77,20 @@ csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.cs
 
 csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
-    writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
-    writer.writeheader() # uses fieldnames set above
+     writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
+     writer.writeheader() # uses fieldnames set above
 
-    for date in dates: 
-         daily_prices = tsd[date]
+     for date in dates: 
+          daily_prices = tsd[date]
 
-         writer.writerow({
-            "timestamp": date,
-            "open": daily_prices["1. open"],
-            "high": daily_prices["2. high"],
-            "low": daily_prices["3. low"],
-            "close": daily_prices["4. close"],
-            "volume": daily_prices["5. volume"]
-         })
+          writer.writerow({
+               "timestamp": date,
+               "open": daily_prices["1. open"],
+               "high": daily_prices["2. high"],
+               "low": daily_prices["3. low"],
+               "close": daily_prices["4. close"],
+               "volume": daily_prices["5. volume"]
+               })
 
 calc_buy = recent_low*1.15
 
@@ -96,7 +112,7 @@ else:
      recommendation_2 = "You should not sell."
      recommendation_exp_2 = "The latest close is less than 15% below the recent high."
 
-#info outputs 
+     #info outputs 
 
 print("-------------------------")
 print(f"SELECTED SYMBOL: {symbol} ")
