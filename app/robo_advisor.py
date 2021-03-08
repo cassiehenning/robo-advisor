@@ -79,28 +79,22 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 calc_buy = recent_low*1.15
 
 if float(latest_close) <= float(calc_buy): 
-        recommendation = "You should buy."
-        recommendation_exp = "The latest close is less than or equal to 15% above the recent low."
+     recommendation = "You should buy."
+     recommendation_exp = "The latest close is less than or equal to 15% above the recent low."
 
 else: 
-    reccomendation = "You should not buy."
-    recommendation_exp = "The latest close is more than 15% above the recent low."
+     recommendation = "You should not buy."
+     recommendation_exp = "The latest close is more than 15% above the recent low."
 
 calc_sell = recent_high*.85
 
 if float(latest_close) >= float(calc_sell): 
-        recommendation = "You should sell."
-        recommendation_exp = "The latest close is more than or equal to 15% below the recent high."
+     recommendation_2 = "You should sell."
+     recommendation_exp_2 = "The latest close is more than or equal to 15% below the recent high."
 
 else: 
-    reccomendation = "You should not sell."
-    recommendation_exp = "The latest close is less than 15% below the recent high."
-
-
-
-
-
-
+     recommendation_2 = "You should not sell."
+     recommendation_exp_2 = "The latest close is less than 15% below the recent high."
 
 #info outputs 
 
@@ -117,8 +111,14 @@ print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!") # write code to determine whether the user should buy or sell
-print("RECOMMENDATION REASON: TODO") #This price is lower than the recent price low! or #This price is higher than the recent high, maybe you should wait
+
+
+print(f"If you are trying to buy: {recommendation}") # write code to determine whether the user should buy or sell
+print(f"RECOMMENDATION REASON: {recommendation_exp}")
+print(f"If you are trying to sell: {recommendation_2}")
+print(f"RECOMMENDATION REASON: {recommendation_exp_2}") #This price is lower than the recent price low! or #This price is higher than the recent high, maybe you should wait
+
+
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}...")
 print("-------------------------")
