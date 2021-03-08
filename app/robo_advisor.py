@@ -76,6 +76,32 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
             "volume": daily_prices["5. volume"]
          })
 
+calc_buy = recent_low*1.15
+
+if float(latest_close) <= float(calc_buy): 
+        recommendation = "You should buy."
+        recommendation_exp = "The latest close is less than or equal to 15% above the recent low."
+
+else: 
+    reccomendation = "You should not buy."
+    recommendation_exp = "The latest close is more than 15% above the recent low."
+
+calc_sell = recent_high*.85
+
+if float(latest_close) >= float(calc_sell): 
+        recommendation = "You should sell."
+        recommendation_exp = "The latest close is more than or equal to 15% below the recent high."
+
+else: 
+    reccomendation = "You should not sell."
+    recommendation_exp = "The latest close is less than 15% below the recent high."
+
+
+
+
+
+
+
 #info outputs 
 
 print("-------------------------")
