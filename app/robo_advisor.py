@@ -3,6 +3,7 @@ import requests
 import json 
 import csv
 import os
+from dotenv import load_dotenv
 
 #from professor michael rozetti's project walkthrough
 def to_usd(my_price): 
@@ -11,7 +12,13 @@ def to_usd(my_price):
 
 #info inputs
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+load_dotenv()
+
+symbol = 
+
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
+
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
 
 response = requests.get(request_url)
