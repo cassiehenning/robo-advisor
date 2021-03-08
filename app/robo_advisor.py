@@ -4,6 +4,8 @@ import json
 import csv
 import os
 
+from matplotlib import pyplot as plt
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -29,10 +31,6 @@ elif len(symbol) > 6:
 elif check_symbol == False:
      print("Please enter a valid stock symbol.")
      exit()
-#elif IndexError:
-    #print("Symbol not found. Please try again.")
-    #exit()
-
 
 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY", "demo")
@@ -91,6 +89,30 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
                "close": daily_prices["4. close"],
                "volume": daily_prices["5. volume"]
                })
+
+#extra credit
+
+with open(csv_file_path) as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+    closes = []
+    for row in reader:
+        if row[4]=='':
+            continue
+        close = int(float(row[4]))
+        closes.append(close)  #appending closing price 
+    
+    #Plot Data
+    fig = plt.figure(dpi = 128, figsize = (10,6))
+    plt.plot(closes, c = 'blue') #Line 1
+    #Format Plot
+    plt.title("Stock Prices Over Time", fontsize = 24)
+    plt.xlabel("Time in Days",fontsize = 16)
+    plt.ylabel("Price in USD", fontsize = 16)
+    plt.tick_params(axis = 'both', which = 'major' , labelsize = 16)
+    plt.show()
+
+#recommendations
 
 calc_buy = recent_low*1.15
 
