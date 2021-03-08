@@ -1,6 +1,8 @@
 
 import requests
 import json 
+import csv
+import os
 
 #from professor michael rozetti's project walkthrough
 def to_usd(my_price): 
@@ -40,7 +42,20 @@ for date in dates:
     low_prices.append(float(low_price))
 recent_high = max(high_prices)
 recent_low = min(low_prices)
-#breakpoint()
+
+#csv_file_path = "data/prices.csv" # a relative filepath
+
+csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+
+with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
+    writer = csv.DictWriter(csv_file, fieldnames=["city", "name"])
+    writer.writeheader() # uses fieldnames set above
+    writer.writerow({"city": "New York", "name": "Yankees"})
+    writer.writerow({"city": "New York", "name": "Mets"})
+    writer.writerow({"city": "Boston", "name": "Red Sox"})
+    writer.writerow({"city": "New Haven", "name": "Ravens"})
+
+
 
 #info outputs 
 
@@ -57,8 +72,10 @@ print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!")
-print("RECOMMENDATION REASON: TODO")
+print("RECOMMENDATION: BUY!") # write code to determine whether the user should buy or sell
+print("RECOMMENDATION REASON: TODO") #This price is lower than the recent price low! or #This price is higher than the recent high, maybe you should wait
+print("-------------------------")
+print(f"WRITING DATA TO CSV: {csv_file_path}...")
 print("-------------------------")
 print("HAPPY INVESTING!")
 print("-------------------------")
