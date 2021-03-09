@@ -32,16 +32,18 @@ elif check_symbol == False:
      print("Please enter a valid stock symbol.")
      exit()
 
-
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY", "demo")
 
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
-
 
 response = requests.get(request_url)
 #print(type(response)) #response
 #print(response.status_code) #200
 #print(response.text) 
+
+if "Error Message" in response.text:
+     print("Symbol not found please try again.")
+     exit()
 
 parsed_response = json.loads(response.text)
 
@@ -90,7 +92,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
                "volume": daily_prices["5. volume"]
                })
 
-#extra credit
+#extra credit https://codinginfinite.com/data-visualizing-csv-format-chart-using-python-matplotlib/
 
 with open(csv_file_path) as f:
     reader = csv.reader(f)
@@ -128,11 +130,11 @@ calc_sell = recent_high*.85
 
 if float(latest_close) >= float(calc_sell): 
      recommendation_2 = "You should sell."
-     recommendation_exp_2 = "The latest close is more than or equal to 15% below the recent high."
+     recommendation_exp_2 = "The latest close is less than or equal to 15% below the recent high."
 
 else: 
      recommendation_2 = "You should not sell."
-     recommendation_exp_2 = "The latest close is less than 15% below the recent high."
+     recommendation_exp_2 = "The latest close is more than 15% below the recent high."
 
      #info outputs 
 
